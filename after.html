@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        body {
+            background-color: #8f9692; /* Background color */
+            font-family: Arial, sans-serif; /* Font family */
+            text-align: center; /* Center text */
+            padding: 20px; /* Add padding for aesthetics */
+        }
+        h1 {
+            color: #f5faff; /* Darker color for text */
+            margin-bottom: 20px; /* Space below heading */
+        }
+        a {
+            display: inline-block; /* Make the link a block for padding */
+            margin-top: 20px; /* Space above the link */
+            padding: 10px 15px; /* Add padding */
+            background-color: #650a21; /* Green background for link */
+            color: white; /* White text color */
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth background color transition */
+        }
+        a:hover {
+            background-color: #64052b; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Prediction Percentage of Audience: {{ data*100 }}</h1>
+    
+    <a href="/">Go back to home page</a>
+
+</body>
+</html>

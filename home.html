@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction the Percentage of Audience</title>
+    <style>
+        body {
+            background-color: #500818; /* Original background */
+            font-family: Arial, sans-serif;
+            text-align: center; /* Center-align text */
+            padding: 20px; /* Add padding for aesthetics */
+        }
+        form {
+            max-width: 400px; /* Set a maximum width for the form */
+            margin: 40px auto 0; /* Center the form */
+            background-color: #656462; /* Light grey background */
+            padding: 20px; /* Add padding inside the form */
+            border-radius: 5px; /* Slightly rounded corners for the form */
+        }
+        .form-group {
+            margin-bottom: 15px; /* Space between elements */
+        }
+        label {
+            display: block; /* Make label block-level for alignment */
+            text-align: left; /* Align text to the left */
+            margin-bottom: 5px; /* Space between label and input */
+        }
+        select {
+            width: 100%; /* Full width for inputs */
+            padding: 10px; /* Increased padding for better appearance */
+            border: 1px solid #827f7f; /* Light border for inputs */
+            border-radius: 3px; /* Slightly rounded corners */
+            font-size: 16px; /* Increase font size for readability */
+            height: 50px; /* Set a consistent height */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        /* Select2 styles */
+        .select2-container--default .select2-selection--single {
+            height: 50px !important; /* Ensure the height matches your requirements */
+            padding: 0 !important; /* Remove padding to avoid excess space */
+            border: 1px solid #eddada !important; /* Light border to match the original */
+            border-radius: 3px !important; /* Slightly rounded corners */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 50px !important; /* Center the text vertically */
+            padding-left: 10px !important; /* Add padding to align text */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 50px !important; /* Match the height of the select box */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            margin-top: 10px !important; /* Center the arrow */
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none; /* Remove arrows in webkit browsers */
+            margin: 0; /* Reset margin */
+        }
+        input[type="number"] {
+            -moz-appearance: textfield; /* Remove arrows in Firefox */
+        }
+        input[type="submit"] {
+            font-size: 18px; /* Increase font size for the button */
+            padding: 10px; /* Add padding for better appearance */
+            margin-top: 20px; /* Space above the button */
+            border: none; /* Remove border */
+            border-radius: 3px; /* Slightly rounded corners */
+            background-color: #640b13; /* background */
+            color: rgb(247, 243, 243); /* White text */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth background color transition */
+        }
+        input[type="submit"]:hover {
+            background-color: #64021c; /* on hover */
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <!-- Include Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Define an array of game names
+            const games = ['Air Force- 1', 'Air Force- 2', 'Air Force- 3', 'Alabama', 'Alabama (Doubleheader)', 'Alabama A&M', 
+            'Alabama A&M/Marshall(DH)', 'Alabama SBW', 'Alabama- 1 ', 'Alabama- 2', 'Alabama- 3', 'Alcorn St', 'Alcorn State', 
+            'Arizona', 'Arizona State- 1', 'Arizona State- 2', 'Arizona State- 3', 'Arizona/Samford(DH)', 'Ark Pine Bluff', 
+            'Ark-Little Rock', 'Ark-Pine Bluff', 'Arkansas', 'Arkansas (SBW)', 'Arkansas (SBW) DH', 'Arkansas State', 
+            'Arkansas- 1', 'Arkansas- 2', 'Arkansas- 3', 'Arkansas-Pine Bluff', 'Auburn', 'Auburn (SBW)', 'Auburn(SBW)', 
+            'Auburn- 1 SBW', 'Auburn- 3 SBW', 'Austin Peay - 1', 'Austin Peay - 2', 'Binghamton', 'Central Arkansas', 
+            'Cincinnati', 'Columbia', 'Diamond Classic 1', 'Diamond Classic 2 (DH)', 'Diamond Classic 3', 'East Carolina', 
+            'Eastern Illinois', 'Eastern Kentucky', 'Evansville- 1', 'Evansville- 2', 'Evansville- 3', 'FAU', 'FIU', 'Florida', 
+            'Florida (SBW)', 'Georgia', 'Georgia Southern - 1', 'Georgia Southern - 2', 'Georgia Southern - 3', 'Grambling', 
+            'Holy Cross', 'Holy Cross (DH)', 'Indiana State', 'Jackson State', 'Jacksonville State', 'Kentucky (SBW)', 'LA Tech', 
+            'LSU', 'LSU ', 'LSU- 1', 'LSU- 2', 'LSU- 3', 'La Monroe', 'Lipscomb- 1', 'Lipscomb-2 (DH)', 'Long Beach State', 
+            'MS Valley State', 'Maine', 'Marist', 'Marist/Indiana State (DH)', 'Marshall', 'Memphis', 'Miami(OH)Cincinnati(DH)', 
+            'Mississippi Valley State', 'Mizzou', 'Mizzou- 1', 'Mizzou- 2', 'Mizzou- 3', 'Morehead State', "Mount St Mary's", 
+            "Mt St Mary's - 1", "Mt St Mary's - 3", 'NM State', 'Nich St and U Mass Lowell', 'Nicholls State', 'North Alabama', 
+            'Northern Kentucky', 'Ole Miss', 'Ole Miss (SBW)', 'Ole Miss (SBW)-1', 'Ole Miss (SBW)-2', 'Ole Miss (SBW)-3', 
+            'Ole Miss DH', 'Oral Roberts', 'Oregon', 'Princeton', 'SELA', 'Samford', 'San Diego', 'South Alabama', 'South Carolina', 
+            'South Carolina (Easter WD)', 'South Carolina- 1', 'South Carolina- 2', 'South Carolina- 3', 'South Dakota St', 
+            'South Dakota St & FAU', 'Southeast Missouri', 'Southern', 'Southern Illinois', 'Southern Miss ', 'Southern University', 
+            'Tennessee', 'Texas A&M', 'Texas A&M (SBW)', 'Texas A&M- 1', 'Texas A&M- 2', 'Texas A&M- 3', 'Texas AM', 
+            'Texas Southern', 'Texas Tech', 'Texas Tech/Western Ill', 'Troy', 'U Mass Lowell', 'UAB', 'UGA- 1', 'UGA- 2', 
+            'UGA- 3', 'ULM- 1', 'ULM- 2', 'UT Martin', 'UT Martin ', 'Utah Valley', 'Utah Valley DH', 'VMI- 1', 'VMI- 2', 'VMI- 3', 
+            'Valparaiso', 'Vanderbilt', 'Vanderbilt- 1', 'Vanderbilt- 2', 'Vanderbilt- 3', 'Western Carolina', 'Western Illinois', 
+            'Western Kentucky', 'Youngstown State', 'Youngstown State (DH)'];
+
+            const $gameSelect = $('#game');
+            $gameSelect.append('<option value=""></option>'); // Placeholder option
+            games.forEach(game => {
+                $gameSelect.append(`<option value="${game}">${game}</option>`);
+            });
+
+            // Initialize Select2 for the game selection
+            $gameSelect.select2({
+                placeholder: 'Select a Game',
+                allowClear: true
+            });
+        });
+    </script>
+    
+</head>
+<body>
+
+    <h1> Prediction Percentage of Audience </h1>
+    
+    
+    <form method="POST" action="{{url_for('home')}}">
+
+        <div class="form-group">
+            <label for="game">Game:</label>
+            <select name="a" id="game" required>
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="sec">SEC:</label>
+            <select name="b" id="sec">
+                <option value="">Select If it's SEC or not</option>
+                <option value="1">SEC</option>
+                <option value="0">Not SEC</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="day">Day of the week:</label>
+            <select name="c" id="day">
+                <option value="None">Select a day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="weather">Weather Conditions:</label>
+            <select name="d" id="weather">
+                <option value="Optional">Optional</option>
+                <option value="Sunny">Sunny</option>
+                <option value="Cloudy">Cloudy</option>
+                <option value="Windy">Windy</option>
+                <option value="Rainy">Rainy</option>
+            </select>
+        </div>
+        
+        <input type="submit" value="Predict">
+    </form>
+    
+</body>
+</html>
